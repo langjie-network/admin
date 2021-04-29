@@ -1,0 +1,14 @@
+/build/manifest.json
+/build/service-worker.js
+/build/asset-manifest.json
+/build/favicon.ico
+/build/static/
+/downloads/
+/public/js/aui/
+/public/js/echarts/
+/public/js/kendo/
+/public/js/maps/
+/public/layui/
+/public/styles/kendo/
+/public/tarbuild/static/
+/.idea/

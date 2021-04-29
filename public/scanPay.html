@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/js-sha1/0.6.0/sha1.js"></script>
+    <script>
+        //const wx_api = access_token => `https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`
+        /*随机字符串*/
+        function randomString () {
+            const arr = [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' ];
+                let str = '';
+                for (let i = 0; i < 32; i++) {
+                    str += arr[parseInt(Math.random()*36)];
+                }
+            return str;
+        }
+        /* 时间戳产生函数   */
+        function createTimeStamp () {
+            return parseInt(new Date().getTime() / 1000) + ''
+        }
+        function sortByAscII (obj) {
+            const arr = [];
+            let num = 0;
+            for (const i in obj) {
+                arr[num] = i;
+                num++;
+            }
+            const arrSort = arr.sort();
+            let str = '';
+            for (const i in arrSort) {
+                str += arrSort[i] + '=' + obj[arrSort[i]] + '&';
+            }
+            const char = '&';
+            str = str.replace(new RegExp('^\\' + char + '+|\\' + char + '+$', 'g'), '');
+
+            return str;
+        }
+        const signatureObj = {
+                noncestr: randomString(),
+                jsapi_ticket: 'sM4AOVdWfPE4DxkXGEs8VKgtyDcFwxdQT6nYkv3uk6m5NFyqnScwHp4bGiKltn_kRtoc9LwaZAArRSjcnIJvRQ',
+                timestamp: createTimeStamp(),
+                url: window.location.href
+            }
+        /*签名算法*/
+        function createSignature() {
+            const sortObj = sortByAscII(signatureObj)
+            const sha = sha1(sortObj)
+            return sha
+            
+        }
+        window.onload = function(){
+            wx.config({
+                debug: true,
+                appId: 'wx0f012ab2b8db902d',
+                timestamp: signatureObj.timestamp,
+                nonceStr: signatureObj.noncestr,
+                signature: createSignature(),
+                jsAplist: ['scanQRCode','chooseWXPay']
+            })
+        }
+        scanCode = () => {
+            wx.scanQRCode({
+                needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+                success: function (res) {
+                    console.log(res)
+                    var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+                }
+            });
+        }
+    </script>
+    <div><button onclick="scanCode()">微信扫一扫</button></div>
+</body>
+</html>
