@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<form action="http://192.168.0.138:8090/admin/customer/uploadImg" method="post" enctype="multipart/form-data">
+		<input type="file" name="img" id="fileToUpload">
+		<input type="hidden" name="cpy" id="hidden" value="济南鑫光试验机制造有限公司">
+	</form>
+    <input type="text" readonly=false>
+</body>
+<script src="../js/common.js" type="text/javascript"></script>
+<script src="../js/kendo/jquery.min.js" type="text/javascript"></script>
+<script>
+	$('input[type=file]').change(function(event) {
+        if ($('input[type=file]').val().length) {
+            var fileName = $('input[type=file]').val();
+            var extension = fileName.substring(fileName.lastIndexOf('.'), fileName.length).toLowerCase();
+            if (extension == ".jpg" || extension == ".png") {
+                    var data = new FormData();
+                    data.append('img', $('#fileToUpload')[0].files[0]);
+                    data.append('cpy', '朗杰');
+                    data.append('name', 'test');
+                    $.ajax({
+                        url: router('contact/uploadImg'),
+                        type: 'POST',
+                        data: data,
+                        cache: false,
+                        contentType: false, //不可缺参数
+                        processData: false, //不可缺参数
+                        success: function(data) {
+                            log(data);
+                        },
+                        error: function() {
+                            console.log('error');
+                        }
+                    });
+            } 
+        }
+    });
+    function test(key){
+        switch(key){
+            case 'q':
+                return {
+                    'name':'gonsi'
+                };
+                break;
+        }
+    }
+    console.log(test('q').name);
+</script>
+</html>

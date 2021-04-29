@@ -4,6 +4,10 @@
 /build/favicon.ico
 /build/static/
 /downloads/
+/web/
+/public/img/
+/public/audio/
+/public/bootstrap/
 /public/js/aui/
 /public/js/echarts/
 /public/js/kendo/
@@ -12,3 +16,7 @@
 /public/styles/kendo/
 /public/tarbuild/static/
 /.idea/
+*.apk
+*.png
+*.jpg
+*.txt
