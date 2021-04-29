@@ -20,3 +20,5 @@
 *.png
 *.jpg
 *.txt
+/build/
+/backup/
